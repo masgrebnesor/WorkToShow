@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0120)http://www.cs.carleton.edu/faculty/arafferty/cs201_spr2020/assignments/hw03-dataAnalysis/hw03-country-analysis-repl.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>HW3: Analyzing Country Data : CS 201</title>
+    <script type="text/javascript" src="./specifications_files/shCore.js"></script>
+    <script type="text/javascript" src="./specifications_files/shBrushJava.js"></script>
+    <link rel="stylesheet" type="text/css" href="./specifications_files/shCore.css">
+    <link rel="stylesheet" type="text/css" href="./specifications_files/shThemeDefault.css">
+    <link rel="stylesheet" type="text/css" href="./specifications_files/sty.css">
+    <link rel="stylesheet" type="text/css" href="./specifications_files/sched.css">
+    
+</head>
+<body data-gr-c-s-loaded="true">
+<div id="header"><div id="head-l">Spring 2020</div><div id="head-c">CS 201: Data Structures</div><div id="head-r">Anna Rafferty</div></div>
+<h1>HW3: Analyzing Country Data</h1>
+<div id="grade-line">25 points; due 4/20 by 10PM Central time. Like all assignments, there is a 48-hour, no questions asked extensions policy. If you have a tech issue, a health issue, or some other issue that impedes making the deadline, use this policy. You do not need to notify me that you're using the policy. Extensions beyond the 48-hour policy will only be considered in extenuating circumstances, and circumstances that arise between the original deadline and the extension are generally not extenuating.</div>
+
+<h2>Goals</h2>
+<div class="section"><p>To build a non-trivial program with Java that includes both text and images, and work with the List ADT.</p></div>
+
+<h2>Assignment Type and Collaborative Learning Expectations</h2>
+<div class="section">
+  <p>This is a <strong>homework assignment</strong> that you'll be handing in on Moodle.</p>
+  <p>You're welcome to either complete this homework with input from one or more members of your collaborative learning group or to complete it on your own. You and the other members of your collaborative learning group should each write your own code, even if you're helping one another, but you may share your screens/use multiplayer mode to look at one another's code, make suggestions, and compare ideas. Take a look at the Collaboration Policies document on Moodle if you have any questions about what's permitted.</p>
+    <p>You're welcome to talk to your collaborative learning group about this assignment at any point, and you'll have a scheduled check in about this assignment no later than 4/17. Before the check in, the person whose first name is alphabetically first should create a google doc that has two sections: "Questions" and "Progress". This document should be <strong>shared with everyone in the group and with me.</strong> Everyone in your homework group should put a progress report of at least two sentences about where they're at, and everyone should add questions about the homework if they have them. Writing in this document should be done at least one hour prior to the start of your meeting. In your check in, you should discuss the questions to help everyone make progress. You'll likely want to communicate about when to meet for that check in as soon as possible; the person whose first name is alphabetically first should coordinate that meeting time.</p>
+</div>
+<h2>Setup and Requirements</h2>
+<div class="section">
+    <p>The code that you write for this assignment will build on top of the List ADT and one of the implementations of List that we've seen in class.  The code will also use a library for producing graphs called <a href="https://github.com/jfree/jfreechart">JFreeChart</a>, one additional class that I wrote to make it easy for you to interact with the graphing library, and a dataset containing information about countries, created using data from the World Bank:</p>
+    <ul>
+        <!-- <li><tt><a href="List.java">List.java</a></tt></li> -->
+        <li><tt><a href="http://www.cs.carleton.edu/faculty/arafferty/cs201_spr2020/assignments/hw03-dataAnalysis/jfreechart-1.5.0.jar">jfreechart-1.5.0.jar</a></tt></li>
+        <li><tt><a href="http://www.cs.carleton.edu/faculty/arafferty/cs201_spr2020/assignments/hw03-dataAnalysis/BarChart.java">BarChart.java</a></tt></li>
+        <li><tt><a href="http://www.cs.carleton.edu/faculty/arafferty/cs201_spr2020/assignments/hw03-dataAnalysis/CountryDataset.csv">CountryDataset.csv</a></tt></li>
+        
+        <!-- <li><tt><a href="MysteryListImplementation.class">MysteryListImplementation.class</a></tt></li>
+        <li><tt><a href="MysteryListImplementation$MysteryListIterator.class">MysteryListImplementation$MysteryListIterator.class</a></tt></li> -->
+    </ul>
+	<p> You should not make any changes to any of these files. The Javadoc for the BarChart class is at: 
+		</p><ul>
+        <!-- <li><tt><a href="javadoc/List.html">List</a></tt></li>
+        <li><tt><a href="javadoc/MysteryListImplementation.html">MysteryListImplementation</a></tt></li> -->
+        <li><tt><a href="http://www.cs.carleton.edu/faculty/arafferty/cs201_spr2020/assignments/hw03-dataAnalysis/javadoc/BarChart.html">BarChart</a></tt></li>
+	</ul>
+	<p>You'll get all of these files on repl.it. Go to our class, then the Projects section, and choose HW03: Country Displayer.</p>
+  <p>It may be useful to refer to the code from class and the Java Reference file on Moodle.  The <a href="https://docs.oracle.com/javase/8/docs/api/index.html">official Java API documentation</a> will likely be helpful for choosing what implementation of a <code>List</code> you'll use, and for seeing what methods are available.</p>
+ 
+</div>
+
+<h2>Special Notes</h2>
+    
+    We're using a separate Java library to do the graphing, which means that we'll need to tell the compiler and the Java virtual machine about that library. Specifically, we have to tell it to include those classes on the <em>classpath</em> - the set of classes that the program has access to (see <a href="https://stackoverflow.com/questions/2396493/what-is-a-classpath-and-how-do-i-set-it">this StackOverflow question and answer for a little more info</a>). You'll do this by adding a classpath argument when you compile and run the program. So, when you want to compile on the lab machines, navigate to the directory with your code, which should also contain <tt>BarChart.java</tt> and <tt>jfreechart-1.5.0.jar</tt>, and run:
+    
+     <div class="example-box"><pre>javac -classpath .:jfreechart-1.5.0.jar *.java
+     </pre></div>
+     
+     That tells the compiler to include the current directory (<tt>.</tt>) and the classes in the jar file when compiling.
+     
+     Then to run your program, type: 
+     <div class="example-box"><pre>java -classpath .:jfreechart-1.5.0.jar CountryDisplayer
+     </pre></div>
+     and put your command-line arguments after CountryDisplayer.
+     
+     <!-- (Note: If you're on Windows, replace ".:" with ".;". If on your own machine (any operating system), you get a message about Unsupported Major/Minor Version error, it means you're running a different version of Java than the jar was compiled with. Use the lab machines or change to JDK11.) -->
+
+<h2>Specification</h2>
+<div class="section">
+    <p>For this assignment, you will write a program that reads from a text file with one line for each country. Your program will need to represent each country as an instance of a class <code>Country</code>.  It will need to convert the text file data into a <code>List&lt;Country&gt;</code> and display the data in one of two forms:
+        </p><ul>
+            <li>As a graph of the top (or bottom) 10 countries for a given indicator, in sorted order. An "indicator" is one of the types of data in the file - e.g., CO2 emissions per capita.</li>
+            <li>As a text list of all countries, in sorted order for a given indicator.</li>
+        </ul>
+         This will give you practice working with the List ADT, <code>String</code>, <code>File</code>, <code>Scanner</code>, loops, and simple classes. It's also a chance to see how your programming skills might be used to analyze large datasets.<p>
+    
+    </p><h3>The input file format</h3>
+    <div class="section">
+        <p>The input file is a text file that contains 0 or more lines of countries, with an initial line that gives the meaning of each item in the line. After that first line, each line of the input file will represent a single country via a comma-delimited list. Here's an example of the representation of Afghanistan, the alphabetically first country:</p>
+        <div class="example-box"><pre>Afghanistan,0.31647873497721196,18168.86,82.60891342163086,17.011405995013824,0.103138023195208,3.006609490465427,34295325.14285714,3.900860497092041
+        </pre></div>
+        Each of the numbers represents some information about the country. Specifically, the meaning of each of the items is as follows:
+        
+        <div class="example-box"><pre>Country Name
+CO2 emissions (metric tons per capita)
+Access to electricity (% of population)
+Renewable energy consumption (% of total final energy consumption)
+Terrestrial protected areas (% of total land area)
+Population growth (annual %)
+Population (total)
+Urban population growth (annual %)
+</pre></div>
+
+<p>Open up the CSV file gave you in a text editor to see all of the data.</p>
+
+<p>The information in the data file you downloaded (CountryDataset.csv) is based off of the <a href="http://datatopics.worldbank.org/world-development-indicators/">World Bank Indicators dataset</a>. The original dataset contains information about each country for each indicator (item) and year from 1960-2019 (although some years are missing for some countries). For each country, the dataset I've given you contains a single number for each indicator. That number is the average value of the indicator from 2012-2019, skipping any years where there wasn't data for that country.</p>
+
+<p>For your testing, you can use the data file I've provided, but you can also test on smaller subsets of the data to make sure that your output is correct and that your program doesn't crash if there are no countries.</p>
+
+<p>The class <tt>Country</tt> is not provided for you: you'll make this class yourself, and decide what instance variables you want to include.
+    </p></div>
+    <h3>The command-line syntax</h3>
+    <div class="section">
+        <p>Your main method should be structured so that the program expects three or four command-line arguments. The meaning of the command line arguments is as follows:
+            </p><ol>
+                <li>The path to the file containing the country data. This includes the name of the file, and any directory information if the file is not in the same directory as the java program you're making. E.g., if the country file is in a subdirectory of the directory containing the java program and that subdirectory is named <tt>data</tt>, this argument would be <tt>data/CountryDataset.csv</tt>. (Note: there's nothing special you have to do to handle “CountryDataset.csv” versus “data/CountryDataset.csv”. <code>File</code> will do the right thing in both without you having to think about it.)</li>
+                <li>The name of the indicator that we should sort the data on. This should be one of: CO2Emissions, AccessToElectricity, RenewableEnergy, ProtectedAreas, PopulationGrowth, PopulationTotal, or UrbanPopulationGrowth.</li>
+                <li>The string greatestToLeast if we want to sort from greatest to least or the string leastToGreatest if we want to sort from least to greatest.</li>
+                <li>A second indicator that we also want to display. This should be from the same list of indicators represented above. If this second indicator is present, then the program should display a graph (see more below). Otherwise, the program should display text.</li>
+            </ol>
+    </div>
+    <h3>The expected output</h3>
+    <div class="section">
+    
+        <p>Your program should produce output based on whether three or four command-line arguments were present.</p>
+        
+        <h4>Three command line arguments: Text display</h4>
+        
+        The program should print to standard output (i.e. <code>System.out</code>) one country per line in sorted order. The sorted order should be based on the indicator and ordering passed in as the second and command-line arguments. For example, if "PopulationTotal" was the second command line argument and "leastToGreatest" was the third command-line argument, then the list of countries should begin with the the country with the smallest population total, followed by the one with the second to smallest population total, and so on.
+        
+        Here's an example of the first few lines of my output when I use the following command line:<br> <tt>java -classpath .:jfreechart-1.5.0.jar CountryDisplayer CountryDataset.csv PopulationGrowth leastToGreatest</tt><br>
+            
+                    <div class="example-box"><pre>Syrian Arab Republic,2.25446313295738,90.73737087249759,1.9277060880299066,0.6868685421260028,-2.517698262543319,1.8957067555555556E7,-2.7360700068817403
+Lithuania,4.436634929190836,100.0,25.187875446438934,16.9954006502244,-1.395779873269382,2932700.3333333335,-1.2575083008713916
+Bosnia and Herzegovina,6.202683368824258,99.96322256836275,25.16319352057867,1.4136677138088398,-1.298348977579964,3498601.3333333335,-0.5835386771600333
+Latvia,3.5757776241063914,100.0,37.81677729991873,18.1708807939244,-1.1762082840715122,2000429.5555555555,-1.1225949966380695
+Andorra,5.9283140894729325,100.0,19.409272350082784,24.881816521009267,-1.0270025305757813,79991.66666666667,-1.133777891972581
+Bulgaria,6.024409824886997,100.0,16.028288521357233,34.699053411476065,-0.6456026717384161,7216093.777777778,-0.18512936007689168
+            </pre></div>
+            
+            <!-- (Note that you might be thinking "Puerto Rico isn't an independent country..." The "countries" we're using are whatever the WorldBank data listed as a country. That means that some territories, like Puerto Rico and Greenland, have their own data, and even some groups of countries, like "Euro area", are included.) -->
+            
+            <p>For sorting, you can break ties however you like.
+            
+        </p><h4>Four command line arguments: Graph display</h4>
+        
+        If there are four command line arguments, your program should provide a graph of the top 10 countries based on sorting by a given indicator. Sorting should follow the same rules as for the text display. Your graph will include two series: one has the data for the indicator you sorted by, and the other has the data for the second indictor that was provided on the command line (as the fourth command line argument). For example, here's what gets displayed when I run the following line:<br> <tt>java -classpath .:jfreechart-1.5.0.jar CountryDisplayer CountryDataset.csv RenewableEnergy greatestToLeast AccessToElectricity</tt><br>
+    <p>    
+		<img src="./specifications_files/GraphOutputExampleS20.png" width="750px/">
+       </p> 
+        
+You'll create an instance of <tt>BarChart</tt> for your graph, and you'll add data to a particular series using <tt>addValue(String country, double value, String series)</tt> method of BarChart. Look at the Javadoc or the code to find out more about how to create and display a bar chart.
+</div>
+    <h3>The final required piece: Examining your results</h3>
+    
+    Take a look at what your program tells you about the country dataset I've provided. Either using Piazza or in a synchronous discussion, talk with one or more members of your collaborative learning group about what you see: are you surprised by any of the results? Do you have hypotheses about the reason for any of these results (e.g., why particular countries have higher use of renewable energy). Brainstorm several questions that you'd like to investigate further based on these data. Add a file named "AnalysisDiscussion.txt" in repl.it, and write up some notes about your discussion, making sure to include information about what results surprised you, your hypotheses about the reasons for these trends (these can be trends that were surprising or unsurprising to you), and your questions that you'd like to investigate further.
+</div>
+<h2>Code Notes</h2>
+<div class="section">
+	<ul>
+    <li>Keep modularity in mind as you design your code, providing methods to encapsulate the main services you want from your <code>Country</code> objects. Your Country class should be full featured enough to permit getting any of the indicators for a given country and to change the values of those indicators (this would be relevant, e.g., if we were to want to update the values for already-created countries).</li>
+    <li>Modularity is especially important for sorting - you don't want to have completely different sorting methods for all of the different possible combinations of indicators and least-to-greatest versus greatest-to-least possibilities. Think carefully about how to avoid duplicating code.</li>
+    <li>As noted above, to compile all of the files in a directory at one time and include the jar file with the graphing classes, you can run <code>javac -classpath .:jfreechart-1.5.0.jar *.java</code> while in that directory. The "*.java" means anything that ends with ".java". </li>
+	<li>While the <code>BarChart</code> class might look complicated at first, you should only need to use a few methods: a constructor, the <code>addValue</code> method, and <code>displayChart</code>. Take a look at the javadoc to learn how to use these methods, and experiment if you're not sure!</li>
+    <li>Your <code>CountryDisplayer</code> should be object oriented, and you should make sure that you put major self-contained operations into separate methods. This way, the main method reads like a high-level outline of the process you're implementing, rather than being a mess of all the code in a single method. For example:<p></p>
+    <div><div id="highlighter_811221" class="syntaxhighlighter nogutter  java"><div class="toolbar"><span><a href="http://www.cs.carleton.edu/faculty/arafferty/cs201_spr2020/assignments/hw03-dataAnalysis/hw03-country-analysis-repl.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java keyword">public</code> <code class="java keyword">class</code> <code class="java plain">CountryDisplayer {</code></div><div class="line number2 index1 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java plain">CountryDisplayer(??) {</code></div><div class="line number3 index2 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">// Read the country file and load the countries into this instance of CountryDisplayer.</code></div><div class="line number4 index3 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number5 index4 alt2">&nbsp;</div><div class="line number6 index5 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java plain">?? sortCountryList(??) {</code></div><div class="line number7 index6 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">// ...</code></div><div class="line number8 index7 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number9 index8 alt2">&nbsp;</div><div class="line number10 index9 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java plain">?? displayTextCountries(??) {</code></div><div class="line number11 index10 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">// ...</code></div><div class="line number12 index11 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number13 index12 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div><div class="line number14 index13 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java plain">?? displayCountryGraph(??) {</code></div><div class="line number15 index14 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">// ...</code></div><div class="line number16 index15 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number17 index16 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div><div class="line number18 index17 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java keyword">static</code> <code class="java keyword">void</code> <code class="java plain">main(String[] args) {</code></div><div class="line number19 index18 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">// If there's no command-line argument, print a usage statement </code></div><div class="line number20 index19 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">// and exit. Otherwise, use args[0] as the input file path.</code></div><div class="line number21 index20 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">if</code> <code class="java plain">(args.length == </code><code class="java value">0</code><code class="java plain">) {</code></div><div class="line number22 index21 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">// ...</code></div><div class="line number23 index22 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number24 index23 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div><div class="line number25 index24 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java comments">//Construct a CountryDisplayer and call the methods you defined above to load, process, and display the countries</code></div><div class="line number26 index25 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number27 index26 alt2"><code class="java plain">}</code></div></div></td></tr></tbody></table></div></div>
+    <p>This is just an example of one organization - you are not required to follow this example, but you're welcome to.</p>
+    <!-- <p>There's also a more object-oriented approach: you could make <code>CountryDisplayer</code> into a real class that carries its own state (as opposed to an otherwise empty class with a bunch of static methods in it).  This has some advantages, such as being able to have multiple country datasets; you're welcome to take an object-oriented approach now or to wait until we return to the CountryDisplayer in a later assignment.</p></li> -->
+	</li><li>Make sure to test that your CountryDisplayer properly loads and sorts different files of country data. Your program should never throw an exception or error message if given a valid filename that has a properly formatted country dataset (containing 0 or more countries). That is, you don't need to worry about recovering if the user gives you a file that doesn't look like the example one.</li>
+    <li>If the user doesn't properly type in an indicator as the second command-line argument, or if they don't type greatestToLeast or leastToGreatest as the third command-line argument, or if they have a fourth command-line argument that isn't one of the indicators, display a helpful message for them about how to use your class; this is called a usage statement.</li>
+    <li>You may be interested in using a switch statement in your code to deal with multiple string options. You can read about switch statements in S1.51 in the Java Reference.</li>
+	<li>In terms of the style of your program, you will likely find the style document on Moodle helpful. Think about making your variable names and method names descriptive, and make sure the methods and constructors take logical arguments and have comments that tell the user how to use them. Imagine that while you're in charge of these two classes, you're part of a larger organization where other programmers may use your classes. Design your program so that it will be easy for these other programmers to understand and reuse your work.</li>
+	<li><strong>Extra challenge (not required!)</strong>: If you're looking for further practice on your Java skills, use try/catch blocks to fail gracefully if the file is not found or if the file is not properly formatted. You might also try to partially recover if part of a file is not properly formatted - e.g., skip improperly formatted lines.</li>
+        <li><strong>Extra challenge (not required!)</strong>: Optionally allow a fifth command-line argument that indicates how many countries should be displayed in the graph. If this argument isn't included, the program should default to 10 countries.</li>
+        <li><strong>Extra challenge (not required!)</strong>: Use your Java skills to follow up on some of your questions, investigating possible relationships among different indicators or countries. If you do this, write about what you did and what you found in AnalysisDiscussions.txt.</li>
+        
+</ul>
+</div>
+
+<h2>Submission and Grading</h2>
+<div class="section">
+    <p>You'll turn your code in on Moodle under the Country Displayer assignment.</p>
+
+    <p>First, create a Collaborations.txt file in repl.it (using the "Add file" button). In that file, indicate in what ways (if any) you collaborated with other people on this assignment. Did you and your homework group look at each other's code? Talk about strategies? These are fine things to do, and you should note them in the Collaborations.txt file. If you used any resources outside of our course materials, that is also something to note in Collaborations.txt. Take a moment to review the homework and collaborations policy on Moodle.</p>
+    <p>After making Collaborations.txt and finishing the assignment, click on the three vertical dots next to the add file and add folder icons on repl.it, and choose "Download as zip" from the menu. Upload that zip on Moodle.</p>
+
+    <p>Start early, ask lots of questions, and have fun!</p>
+    
+    <h3>Assignment requirements</h3>
+        
+    <p>Below, I've listed the classes and methods you need to implement for this homework, and as always, you are welcome to write any additional methods or classes you like:
+
+      </p><table id="asgns">
+      <tbody><tr>
+        <th>Class</th>
+        <th>Required constructors, methods or interface implementations</th>
+        <th>Required command line functionality</th>
+      </tr>
+      <tr>
+    	  <td><tt>Country</tt></td>
+          <td>Must have methods that permit getting and setting for any indicator value.</td>
+          <td>None</td>
+      </tr>
+      <tr>
+    	  <td><tt>CountryDisplayer</tt></td>
+          <td>No particular methods required, but should be object-oriented.</td>
+          <td>Works with 3 or 4 command line arguments. 3 command line arguments displays a list of all country information in sorted order. 4 command line arguments displays a graph with information from the top 10 countries (or all countries if there are fewer than 10 countries). See above for more details. The indicator names used in the command line arguments must exactly match the names given above.</td>
+      </tr>
+    </tbody></table>
+    <p>This is a partial list of the things that we'll be looking for when evaluating your work (in addition to style and checking that the functionality in the table above is present):</p>
+    <ul>
+        <li>Program compiles and classes are named as directed in the assignment.
+        </li><li>CountryDisplayer works with lots of different input text files, as long as each has at least one line containing the header information (i.e., the same first line as in the provided file), and it never crashes, even if there are fewer than 10 countries.</li>
+        <li>CountryDisplayer sorts correctly for each of the different indicator names and both leastToGreatest and greatestToLeast.</li>
+        <li>CountryDisplayer uses of the BarChart class to display a graph of your analyses</li>
+        <li>CountryDisplayer prints out all information about all of the countries when only 3 command line arguments are given.</li>
+        <li>AnalysisDiscussion.txt contains specific and interesting information about your thoughts on the program results, including responses to all three parts described above.
+        </li><li>Code uses the ADT implementation correctly: the name of the class implementation list appears only in the initialization of <code>List</code> variables, and then only on the right-hand side (just as in the example code from class).</li>
+        <li>Style: Make sure to follow the style guidelines on Moodle&lt;
+        
+        
+    </li></ul>
+    
+    <h3>Grading</h3>
+    <ul>
+        <li>Assignment Requirements — 20 points</li>
+        <li>Comments, Style, and Design — 5 points</li>
+    </ul>
+    <!-- <p>This is a partial list of the things that we'll be looking for when evaluating your work:</p>
+    <ul>
+        <li>Correct command-line syntax and behavior (including naming the main class <tt>CountryDisplayer</tt>)</li>
+        <li>File parsing</li>
+        <li>Sorting according to criteria described above</li>
+        <li>Use of the BarChart class to display a graph of your analyses</li>
+        <li>Correct formatting of output</li>
+        <li>A full-featured <code>Country</code> class to represent individual countries, including the ability to get and change the values of indicators</li>
+        <li>Program compiles</li>
+        <li>Program runs correctly on test input</li>
+        <li>AnalysisDiscussion.txt contains specific and interesting information about your thoughts on the program results, including responses to all three parts described above.
+        <li>Code uses the ADT implementation correctly: the name of the class implementation list appears only in the initialization of <code>List</code> variables, and then only on the right-hand side (just as in the example code from class).</li>
+        <li>Style: Make sure to follow the style guidelines on Moodle</li>
+    </ul> -->
+    
+    <h3>Grading</h3>
+    <ul>
+        <li>Assignment Requirements — 20 points</li>
+        <li>Comments, Style, and Design — 5 points</li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    SyntaxHighlighter.all()
+</script>
+
+
+</body></html>

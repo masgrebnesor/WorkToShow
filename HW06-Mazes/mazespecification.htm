@@ -1,0 +1,342 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0102)http://www.cs.carleton.edu/faculty/arafferty/cs201_spr2020/assignments/hw06-mazes/hw06-mazes-repl.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>HW6: Solving Mazes : CS 201</title>
+    <script type="text/javascript" src="./mazespecification_files/shCore.js"></script>
+    <script type="text/javascript" src="./mazespecification_files/shBrushJava.js"></script>
+    <link rel="stylesheet" type="text/css" href="./mazespecification_files/shCore.css">
+    <link rel="stylesheet" type="text/css" href="./mazespecification_files/shThemeDefault.css">
+    <link rel="stylesheet" type="text/css" href="./mazespecification_files/sty.css">
+    <link rel="stylesheet" type="text/css" href="./mazespecification_files/sched.css">
+    
+    <script type="text/x-mathjax-config;executed=true">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script src="./mazespecification_files/MathJax.js" id=""></script>
+    <link rel="stylesheet" type="text/css" href="./mazespecification_files/sty(1).css">
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+<body data-gr-c-s-loaded="true"><div id="MathJax_Message" style="display: none;"></div>
+<div id="header"><div id="head-l">Spring 2020</div><div id="head-c">CS 201: Data Structures</div><div id="head-r">Anna Rafferty</div></div>
+<h1>HW6: Solving Mazes</h1>
+<div id="grade-line">25 points; due 5/6 by 10PM Central time. Like all assignments, there is a 48-hour, no questions asked extensions policy. If you have a tech issue, a health issue, or some other issue that impedes making the deadline, use this policy. You do not need to notify me that you're using the policy. Extensions beyond the 48-hour policy will only be considered in extenuating circumstances, and circumstances that arise between the original deadline and the extension are generally not considered extenuating.</div>
+<h2>Goals</h2>
+<div class="section"><p>To use the Stack ADT to solve a maze.</p></div>
+
+
+<h2>Assignment Type and Collaborative Learning Expectations</h2>
+<div class="section">
+  <p>This is a <strong>homework assignment</strong> that you'll be handing in on Moodle.</p>
+  <p>You're welcome to either complete this homework with input from one or more members of your collaborative learning group or to complete it on your own. You and the other members of your collaborative learning group should each write your own code, even if you're helping one another, but you may share your screens/use multiplayer mode to look at one another's code, make suggestions, and compare ideas. Take a look at the Collaboration Policies document on Moodle if you have any questions about what's permitted.</p>
+    <p>There is no scheduled check in with your group for this assignment, although I encourage you to help one another and to share your successes and frustrations.</p>
+</div>
+
+<h2>Setup and Requirements</h2>
+<div class="section">
+    <p>The code that you write for this assignment will build on top of two ADTs (List and Stack) and their implementations. Recall that the way Java has dealt with <tt>Stack</tt>s is rather odd: Stack is a class, rather than an interface, and the documentation recommends that you use a Deque instead. Rather than using Java's built in Stack methods, I've provided you with a Stack interface (<tt>Stack.java</tt>) and an implementation of a Stack (<tt>MysteryStackImplementation.class</tt>). The implementation of stack is just a class file, because you don't need to see how it is implemented in order to use it. For this assignment, <strong>you must use the Stack interface and implementation that I have provided - you may not use the built in Java Stack or Deque. </strong><a href="http://www.cs.carleton.edu/faculty/arafferty/cs201_spr2020/assignments/hw06-mazes/javadoc/MysteryStackImplementation.html">You can view the Javadoc for MysteryStackImplementation here.</a></p>
+  	<p>In this assignment, you will build on existing code that I have written in order to solve a maze. You'll get all of these files on repl.it. Go to our class, then the Projects section, and choose HW06: Mazes. If you accidentally delete something on repl.it, you can get <a href="http://www.cs.carleton.edu/faculty/arafferty/cs201_spr2020/assignments/hw06-mazes/hw06Files.zip">a fresh copy of the files here</a>.</p>
+    
+        
+        <!-- For the interface, you'll use <tt>Deque</tt>, and you can use <tt>ArrayDeque</tt> as the implementation. Note that since you're treating the <tt>Deque</tt> as a <tt>Stack</tt>, you should only use <tt>Stack</tt> methods: <tt>pop(item)</tt>, <tt>push()</tt>, <tt>peek()</tt>, <tt>isEmpty()</tt>, and <tt>clear()</tt>. -->
+    <!-- <p>Every source-code file you turn in must have your name in a comment at the top.</p> -->
+    <!-- <p>This is a partner assignment where you'll work with the same person you worked with for HW4 (unless I've told you otherwise).    Write your code by pair-programming: code together, at the same computer, and switch off who's at the keyboard.  Only one of you should ultimately submit your team's code via Moodle. If you're struggling with working with your partner, please reach out to Hailey or me. If you absolutely cannot continue working with your partner, please see the pair programming page on Moodle for instructions about how to proceed.</p> -->
+</div>
+
+<h2>Specification</h2>
+
+    <p>In this assignment, you will load in a maze from a file and solve the maze, printing the maze either with or without the solution marked. I've provided you with a print method and with most of <tt>MazeSquare</tt> class, although you'll add some code to <tt>MazeSquare</tt>.
+        
+            </p><h3>The maze file format</h3>
+            <div class="section">
+                <!-- <p>The first method to look at is the <tt>load</tt> method in <tt>Maze</tt>. It reads in a maze file in a particular format, described below.</p> -->
+                <p>Mazes are stored in text files and follow a particular format. We assume that our mazes are rectangular, and that they have walls along the entire outside of the maze, with no gaps in these outer walls. We will also specify a “start square” (S) and a “finish square” (F) to indicate the goal of the maze-solver — to get from S to F.</p>
+                <p>Maze files should have the following structure:</p>
+                <div class="example-box"><pre>        &lt;Number of columns&gt; &lt;Number of rows&gt;
+        &lt;0-based column number of the start square&gt; &lt;0-based row number of the start square&gt; 
+        &lt;0-based column number of the finish square&gt; &lt;0-based row number of the finish square&gt; 
+        &lt;Row 0 description&gt;
+        &lt;Row 1 description&gt;
+        ...
+        </pre></div>
+                <p>Each row description includes a single character for each square in that row, and each character describes the right and top walls for its square. Specifically:</p>
+                <ul>
+                    <li>7 means that the square has both a top wall and a right wall</li>
+                    <li>| (vertical bar or pipe) means that the square has a right wall, but no top wall</li>
+                    <li>_ (underscore) means that the square has a top wall, but no right wall</li>
+                    <li>* (asterisk) means that the square has neither a top wall nor a right wall</li>
+                </ul>
+                
+                <p>Putting this together in a small example, if the input file contains the following:</p>
+                <div class="example-box">
+                    <table>
+                        <tbody><tr><td>File</td><td>Interpretation</td></tr>
+                        <tr><td><pre>3 2
+1 1
+2 0
+__7
+*_7
+</pre></td><td><pre>The maze has 3 columns and 2 rows
+The start square is in the bottom middle.
+The finish square is in the upper right.
+(0,0) has a top wall; (0,1) has a top wall; (0,2) has a top and right wall
+(1,0) has neither top or right walls; (1,1) has a top wall; (1,2) has a top and right wall
+</pre></td></tr>
+            </tbody></table>
+        </div>
+        <p>then the resulting maze would be printed as follows:
+        </p><div class="example-box"><pre class="asciiart">+-----+-----+-----+
+|                 |
+|              F  |
+|                 |
++     +-----+-----+
+|                 |
+|        S        |
+|                 |
++-----+-----+-----+
+</pre></div>
+                <p>Note that we specify only the top and right walls for each square, and not the bottom and left walls. This is sufficient to describe the whole maze; make sure to understand why this is.</p>
+                
+            </div>
+    
+    <h3>Loading and printing the maze</h3>
+            <div class="section">
+            The first part of the assignment is to finish the <code>load</code> method in <tt>Maze</tt> and add a constructor to <tt>MazeSquare</tt>.
+            <ul>
+                <li> Read through what's in <tt>Maze</tt> and <tt>MazeSquare</tt> in order to understand how the current code is organized.</li>
+                <li>Decide how you'll be storing the squares of the maze. Modify <tt>Maze</tt> to include one or more instance variables for storing the squares, and finish the load method. The load method should return false if there are any squares that don't have *, 7, _, or | as a descriptor, or the number of squares and their organization is inconsistent with the number of rows and columns specified at the beginning of the file. A "stub" method for <tt>load</tt> is provided (this is just the method declaration - my implementation always returns false, which you should remove and make function correctly). While you're implementing <tt>load</tt>, you'll likely also want to add code to <tt>MazeSquare</tt>, such as a constructor.
+                </li>
+                <li>Complete the method <code>getMazeSquare</code>. A "stub" for this method is already provided in the <tt>Maze</tt> file.
+                </li></ul>
+                
+                Now, you're ready to try out whether your methods function correctly. You'll be loading and printing a maze. Modify main so that with the following command line:
+                                    <div class="example-box"><pre class="in">java Maze maze.txt </pre></div>
+                the file <tt>maze.txt </tt> is loaded and printed. This should just involve constructing the maze and calling the load and print methods - it requires very little code. (Look in Maze for a print method - this method will work correctly once you have a working <code>getMazeSquare</code>.)<p></p>
+                <p>Before you move on, draw a maze on paper, and then make a maze file that represents that maze. Try loading the maze and printing it using the following command:
+                                    </p><div class="example-box"><pre>java Maze &lt;mazeFile&gt; </pre></div>
+
+where &lt;mazeFile&gt;  is replaced with the name of your maze file.
+        <p></p>
+    </div>
+    
+    <h3>Solving the maze</h3>
+    <div class="section">
+        Now it's time to solve the maze using the following algorithm. I'm giving you the steps; your job is to turn them into code:
+            <ol>
+                <li>Mark every square in the maze as unvisited.</li>
+                <li>Create an empty stack of maze squares.</li>
+                <li>Add the start square to the stack, and mark the start square as visited.</li>
+                <li>If the stack is empty, you're done and the maze is unsolvable.</li>
+                <li>If the top item is the finish square, you're done and the stack contains a solution to the maze.</li>
+                <li>If all squares adjacent to the top item (i.e. the squares up, down, right, or left from the top item — no diagonal adjacency) are either blocked by a wall or are marked visited already, remove the top item from the stack and go to step 4.</li>
+                <li>Otherwise, select a square that is adjacent to the top of the stack, unvisited, and accessible from the top of the stack (no wall between them). Mark this square as visited and push it on the stack. Go to step 4.</li>
+            
+        </ol></div>
+        <p></p>
+        <p>You should implement this method in <code>Maze</code>. Specifically:</p>
+        <ul>
+            <li>Your <code>Maze</code> class must include a method with the following behavior and signature:
+                <div><div id="highlighter_103848" class="syntaxhighlighter nogutter  java"><div class="toolbar"><span><a href="http://www.cs.carleton.edu/faculty/arafferty/cs201_spr2020/assignments/hw06-mazes/hw06-mazes-repl.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java preprocessor">/**</code></div><div class="line number2 index1 alt1"><code class="java spaces">&nbsp;</code><code class="java preprocessor">* Computes and returns a solution to this maze. If there are multiple</code></div><div class="line number3 index2 alt2"><code class="java spaces">&nbsp;</code><code class="java preprocessor">* solutions, only one is returned, and getSolution() makes no guarantees about</code></div><div class="line number4 index3 alt1"><code class="java spaces">&nbsp;</code><code class="java preprocessor">* which one. However, the returned solution will not include visits to dead</code></div><div class="line number5 index4 alt2"><code class="java spaces">&nbsp;</code><code class="java preprocessor">* ends or any backtracks, even if backtracking occurs during the solution</code></div><div class="line number6 index5 alt1"><code class="java spaces">&nbsp;</code><code class="java preprocessor">* process. </code></div><div class="line number7 index6 alt2"><code class="java spaces">&nbsp;</code><code class="java preprocessor">*</code></div><div class="line number8 index7 alt1"><code class="java spaces">&nbsp;</code><code class="java preprocessor">* @return a stack of MazeSquare objects containing the sequence of squares</code></div><div class="line number9 index8 alt2"><code class="java spaces">&nbsp;</code><code class="java preprocessor">* visited to go from the start square (bottom of the stack) to the finish</code></div><div class="line number10 index9 alt1"><code class="java spaces">&nbsp;</code><code class="java preprocessor">* square (top of the stack). If there is no solution, an empty stack is</code></div><div class="line number11 index10 alt2"><code class="java spaces">&nbsp;</code><code class="java preprocessor">* returned.</code></div><div class="line number12 index11 alt1"><code class="java spaces">&nbsp;</code><code class="java preprocessor">*/</code></div><div class="line number13 index12 alt2"><code class="java keyword">public</code> <code class="java plain">Stack&lt;MazeSquare&gt; getSolution()</code></div></div></td></tr></tbody></table></div></div>
+Note that this method is public, so anyone could call it. You should make sure that it works whenever someone calls it - e.g., if someone calls it twice in a row, it should return the same solution both times. This algorithm is guaranteed to find a solution if there is one, although it isn't guaranteed to find the shortest solution (we'll learn about an algorithm to find shortest solutions later this term).
+</li>
+
+            <li><p>Your implementation of <tt>getSolution()</tt> should include more descriptive variable names than in the prose algorithm above. Your program's command line should follow the syntax:</p>
+                <div class="example-box"><pre>java Maze &lt;mazeFile&gt; [--solve]
+</pre></div>
+                <p>For example, given the included <tt>maze.txt</tt>, <code>java Maze maze.txt</code> on the command line should print the maze with no solution:</p>
+                <div class="example-box"><pre class="asciiart">+-----+-----+-----+
+|                 |
+|              F  |
+|                 |
++     +-----+-----+
+|                 |
+|        S        |
+|                 |
++-----+-----+-----+
+</pre></div>
+                <p>However, <code>java Maze maze.txt --solve</code> should print the maze with the path of a solution marked:</p>
+                <div class="example-box"><pre class="asciiart">+-----+-----+-----+
+|                 |
+|  *     *     F  |
+|                 |
++     +-----+-----+
+|                 |
+|  *     S        |
+|                 |
++-----+-----+-----+
+</pre></div>
+            </li>
+        </ul>   
+        
+        Thus, you'll need to decide how to print a maze solution with the solution marked. Try to avoid duplicating code as much as possible - can you modify my printing code so that it can print a maze with or without a solution? If you modify print, make sure that the comment reflects what print now does.
+    
+    
+    
+
+
+<h3>Testing Your Solver</h3>
+<div class="section">
+<p>One of the most important steps in writing code is testing to make sure it works (and debugging it when it doesn't!). For this assignment, you should create several maze files that differ in critical ways (e.g., one requires going left to find the solution, another requires going right). Test your program on these maze files - does it solve all of them? You should create at least 2 maze files, but you may create more - the important thing about tests isn't how many you have but how well the tests cover the space of possibilities. Try to think about situations that you think could cause your code to fail, and create mazes that will tell you whether your code actually fails in that situation. 
+</p></div>
+
+<h3>Code Notes and Tips</h3>
+<div class="section">
+    <ul>
+        <li>You're welcome to make any changes to the starter files that you'd like. You'll likely want to add constructor(s), method(s), and/or variable(s) to MazeSquare, and you'll likely want some helper methods in Maze rather than writing all of your code in one long method.</li>
+        <li>When testing your code on different mazes, try to isolate what method might be causing errors: print statements can help with this.</li>
+        <li>When testing your code, it's also helpful to walk through it with a maze in front of you. I often draw out on paper what I think is happening in my code (variables, values for those variables, in this case a graphical version of the maze), and that allows me to walk step by step through my code to check whether what I think is true at each point is actually true. Writing things down helps you to check your assumptions, and often slows you down enough to recognize mistakes that you wouldn't see if you tried to keep everything in your mind as you read through the code on screen.</li>
+        <li>Remember to look back at the style guidelines for how to write understandable and maintainable code. One potential issue on this assignment is having lots of repeated code, either for finding a maze square to move to or printing - consider brainstorming ways to avoid this with your collaborative learning group. </li>
+ </ul></div>
+
+<h2>Submission and Grading</h2>
+<div class="section">
+    <p>You'll turn your code in on Moodle under the Country Displayer assignment.</p>
+
+    <p>First, create a Collaborations.txt file in repl.it (using the "Add file" button). In that file, indicate in what ways (if any) you collaborated with other people on this assignment. Did you and your homework group look at each other's code? Talk about strategies? These are fine things to do, and you should note them in the Collaborations.txt file. If you used any resources outside of our course materials, that is also something to note in Collaborations.txt. Take a moment to review the homework and collaborations policy on Moodle.</p>
+    <p>After making Collaborations.txt and finishing the assignment, click on the three vertical dots next to the add file and add folder icons on repl.it, and choose "Download as zip" from the menu. Upload that zip on Moodle.</p>
+
+    <p>Start early, ask lots of questions, and have fun!</p>
+    
+    
+    
+    <h3>Assignment requirements</h3>
+    <p>Below, I've listed the classes and methods you need to implement for this homework, and as always, you are welcome to write any additional methods or classes you like:
+    
+      </p><table id="asgns">
+      <tbody><tr>
+        <th>Class</th>
+        <th>Required constructors, methods or interface implementations</th>
+        <th>Required command line functionality</th>
+      </tr>
+      <tr>
+    	  <td><tt>MazeSquare</tt></td>
+          <td>Minimally must exist and have the same methods that I provided you. You likely want to add additional constructors, methods, and/or variables.</td>
+          <td>None</td>
+      </tr>
+      <tr>
+    	  <td><tt>Maze</tt></td>
+          <td><tt>public boolean load(String fileName)</tt> <em>Loads the maze so it is represented by the instance variables of the Maze class and returns true for properly formatted files and false for improperly formatted files.</em><br><br>
+          <tt>public MazeSquare getMazeSquare(int row, int col)</tt> <em>Returns the square at the appropriate row/column. May throw an error if the row/column are outside the Maze.</em><br><br>
+          <tt>public Stack&lt;MazeSquare&gt; getSolution()</tt> <em>Returns a stack where the bottom square is the start of the maze, the top is the finish, and each consecutive pair of squares does not have a wall between them (i.e., it represents a path from the start to the finish). I should be able to call getSolution() twice in a row and get the same solution, and to call load(), followed by getSolution(), followed by loading a new maze with load(), and then call getSolution(), and all of these calls should return correct results.</em>
+          </td>
+          <td>Works with 1 or 2 command line arguments. The first argument is always the maze file. If --solve is present as a second command line argument, it should print the solution to the maze; if --solve is not present, it should print the maze without a solution.</td>
+      </tr>
+    </tbody></table>
+    <p>Below is a partial list of the things that we'll be looking for when evaluating your work. We will be calling your code with our own client classes, so it's important that the functionality described above is present, including method signatures and working properly regardless of what sequence of method calls is made.</p>
+    <ul>
+        <li>Correct command-line syntax and behavior (two different possible usages)</li>
+        <li><tt>load</tt> method returns true and false based on whether the maze file is properly formatted, and after load is called, the squares of the maze are stored in some way. We wil test with lots of different maze files.</li>
+        <li><tt>getSolution</tt> returns a stack of maze squares containing a solution (or an empty stack if no solution is possible)</li>
+        <li>Program limits the amount of duplicate code.</li>
+    </ul>
+    <h3>Grading</h3>
+    <ul>
+        <li>Assignment Requirements — 20 points</li>
+        <li>Comments, Style, and Design — 5 points</li>
+    </ul>
+</div>
+
+<div id="footnotes">
+    <p>This assignment modified from one designed by Jeff Ondich.  Thanks for sharing, Jeff!</p>
+</div>
+
+<script type="text/javascript">
+    SyntaxHighlighter.all()
+</script>
+
+
+</body></html>
